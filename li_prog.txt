@@ -1,0 +1,458 @@
+Q1) Write a scrpt to check odd & even numbers
+
+#!/bin/bash
+
+read -p "Enter valid Number: " a
+
+if [ $(($a%2)) = 0 ];then
+
+	echo "this is even number"
+
+else
+
+echo "this is odd number"
+
+fi
+
+
+
+Q2) Write a script to check leap year.
+
+#!/bin/bash
+
+read -p "Enter year: " a
+
+if [ $(($a%4)) = 0 -o $a == 366 ];then
+
+	echo "This is Leap year"
+
+else
+
+echo "this is not leap year"
+
+fi
+
+
+
+Q3) Write a script to print fibonaci series.
+
+#!/bin/bash
+
+read -p "How much long series you want ? : " n
+a=0
+b=1
+
+for (( i=0; i<$n; i++ ))
+
+do
+       	c=`expr $a + $b`
+	echo $a
+
+	a=$b
+	b=$c
+
+done
+
+
+
+Q4) Write a shell script tht adds an extension .new to all files in directory
+
+#!/bin/bash
+
+
+read -p "Enter directory path: " dir_path
+
+if [ ! -d "$dir_path" ]; then
+    echo "Directory does not exist"
+    exit 1
+fi
+
+cd "$dir_path"
+
+
+for file in *; do
+    mv "$file" "$file.new"
+done
+
+echo "All files in the directory have been renamed with '.new' extension"
+
+
+
+
+Q5) create a script env.sh which display a sentence which includes computer name, username & home directory
+
+#!/bin/bash
+
+echo Username = `id -u -n`
+echo "Hostname = $HOSTNAME"
+echo "Home = $HOME"
+
+
+Q6) Write a shell script to perform Arithmetic operations,  pass arguments while running the script format is ./script.sh 35 36 +
+
+
+#!/bin/bash
+
+a=$1
+b=$2
+c=$3
+
+if [[ $c == "+" ]];then
+
+        sum=`expr $a + $b`
+        echo -e "Addition is : $sum\n"
+
+
+elif [[ $c == "-" ]];then
+
+        sub=`expr $a - $b`
+        echo -e "Substraction is : $sub\n"
+
+fi
+
+
+Q7) Create a script for the following task....
+
+#!/bin/bash
+
+for i in {1..100}
+do
+ 
+  mkdir test$i
+
+  
+  echo "This is file$i" > test$i/file$i
+done
+
+
+
+
+
+Q8) Write a menu based script which displays the following options :
+1. Make a file. 
+2. Display contents
+3. Copy the file
+4. Rename the file
+5. Delete the file
+6. Exit
+
+
+#!/bin/bash
+
+
+function makefile()
+{
+	read -p "
+Enter The file name : " filename
+
+	if [ -f $filename  ];then
+		echo "
+----------------------------
+ERROR : File already  exists
+----------------------------"
+
+	else
+	cat > $filename
+	fi
+}
+
+
+function content()
+{
+  	read -p "
+Enter the filename to display its content : " filecont
+	
+	if [ -f $filecont ];then
+		echo
+	
+ 	cat $filecont
+
+  	else 
+		echo "
+----------------------------
+ERROR : File does NOT exists
+----------------------------"
+	fi
+
+}
+
+
+function copy()
+{
+ 	read -p "Enter Source file & Target File : " file1 file2
+
+	if [[ -f $file1 && $file2 ]];then
+	cat $file1 > $file2
+
+	fi
+}
+
+
+function rename()
+{
+	read -p "Enter the filename & the new name of the file you want to rename : " file3 file4
+	mv $file3 $file4
+}
+
+
+function delete()
+{
+	read -p "Enter the filename you want to delete : " file5
+
+read -p"Do you Want to delete the file (y/n) : " choice
+
+
+	if [ $choice == "y" ];then 
+	rm $file5
+else 
+	echo "
+	Canceled "
+fi
+}
+
+while true;do
+
+echo 
+echo --------MENU--------
+echo 1.Make a File
+echo 2.Display Contetnt
+echo 3.Copy the Content of File
+echo 4.Rename the File
+echo 5.Delete the File
+echo 6.Exit
+
+read -p "
+ENTER CHOICE : " n
+
+case $n in
+
+		"1") 	makefile			
+			;;
+
+		"2")	content
+			;;
+
+		"3")	copy	
+			;;
+
+		"4")	rename
+			;;
+
+		"5")	delete
+			;;
+		"6")	exit
+			;;
+esac
+done
+
+
+
+9) check a user exists or not. if user exists print user's id gid and  shell. if does not exist create that user.
+
+#!/bin/bash
+
+
+username= "example_user"
+
+
+if id "$username" >/dev/null 2>&1; then
+  
+    echo "User $username exists:"
+    id "$username"
+else
+
+    echo "User $username does not exist, creating the user..."
+    useradd -m -s /bin/bash "$username"
+fi
+
+
+
+10) Write a shell script which will calculate the factorial of an integer enteredfromthekeyboard.
+
+#!/bin/bash
+
+read -p "Enter the number : " num
+
+fact=1
+
+for((i=2;i<=num;i++))
+        {
+        fact=$((fact*i))
+}
+        echo $fact
+
+
+
+11) Write a bash script to create a menu driven program to do the following: 
+- A welcome message with your name and UID
+- Add menu:
+	1. Add User 
+	2. List number of Items 
+	3. Check Permission 
+	4. List Processes 
+	5. Exit
+	
+#!/bin/bash
+
+
+while true; do
+
+echo
+echo ------MENU------
+echo 1.ADD USER
+echo 2.LIST NUMBER OF ITEMS
+echo 3.CHECK PERMISSIONS
+echo 4.LIST PROCESSES
+echo 5.EXIT
+
+read -p "
+
+Enter the Choice : " n
+
+case $n in
+		"1")
+			read -p "Enter the usename you want to add : " username
+			sudo adduser $username
+			;;	
+		"2")
+			ls
+			;;
+		"3")
+			ls -l
+			;;
+		"4")
+			ps -a
+			;;			
+		"5") 
+			exit
+			;;
+
+esac
+done
+
+
+
+12) Create the following users, groups, and group memberships:
+	-A group named admin
+	-A user harry who belongs to admin as a secondary group
+	-A user natasha who also belongs to admin as a secondary group
+	
+
+#sudo groupadd admin
+#sudo usermod -G admin harry
+#sudo usermod -G admin natasha
+        
+
+        
+13) Write in a file through cat command.
+ 
+#cat > File.txt
+hello admin
+
+
+
+14) Display content of file with line number.
+
+#nl file.txt
+
+
+
+15) Suppose a file have 20 lines. Display content from line 15 to 20.
+
+#cat file.txt | tail -6
+
+
+
+16) Create a file through vi editior and perform following
+
+	* Traverse word by word in forword direction	=> w
+	* Traverse word by word in backward direction 	=> b
+	* Copy a line and paste it.			=> yy (copy) & p (paste)
+	* Cut a line and paste it.			=> d (cut) & p (paste)
+	* Delete character by charcter			=> dw
+	* copy 5lines and paste it.			=> 5yy (copy) & p (paste)
+	* search a specific word.			=> /word
+	* taverse from line no 8 to line 2 		=> 2gg
+
+ 
+ 
+ 
+Q17) Create user named ditiss, dac, vlsi and set their password
+
+#sudo adduser ditiss
+#sudo adduser dac
+#sudo adduser vlsi
+
+
+
+Q18) 18.Create a directory and on directiory set permission in away that user ditiss and dac can read and 
+write but vlsi neither read or write.
+
+#sudo setfacl -m u:ditiss:rw file/direcory
+#sudo setfacl -m u:dac:rw file/direcory
+#sudo setfacl -m u:vlsi:x file/direcory
+ 
+ 
+ 
+Q19) Remove read and write permission of ditiss user
+
+#sudo setfacl -m u:ditiss:x file/direcory
+
+
+
+20) Write a shell script that accepts a file name, starting and ending line numbers as arguments
+and displays all the lines between the given line numbers.
+
+#!/bin/bash
+
+read -p "Enter the file name :" f
+read -p "Enter the starting line :" s
+read -p "Enter the ending line :" e
+
+sed -n $s,$e\p $f
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+        
+        
+        
+
